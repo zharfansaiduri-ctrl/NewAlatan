@@ -4,64 +4,6 @@
 <h2>Senarai Permohonan</h2>
 <table id="table"></table>
 
- .header {
-            background: #F4F6F8;
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            color: #1A2350;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #4A4A4A;
-            font-size: 16px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: white;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .tab.active {
-            background: #F4F6F8;
-            color: #1A2350;
-            border-color: #12D8FA;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
 <script>
 fetch('GET_RESPONSE_API')
 .then(r=>r.json())
@@ -76,3 +18,4 @@ document.getElementById('table').innerHTML = html;
 </body>
 
 </html>
+
