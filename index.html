@@ -3,55 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <title>Permohonan Alat Tulis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 
 <body>
-  <h2>Permohonan Alat Tulis</h2>
 
-  <form id="form">
-    <input name="Nama" placeholder="Nama" required><br><br>
-    <input name="Jabatan" placeholder="Jabatan"><br><br>
-    <select name="JenisAlatan">
-      <option value="Pen">Pen</option>
-      <option value="Kertas A4">Kertas A4</option>
-      <option value="Kenderaan">Kenderaan</option>
-    </select><br><br>
-    <input type="number" name="Kuantiti" placeholder="Kuantiti" required><br><br>
-    <button type="submit">Hantar</button>
-  </form>
+<h2 style="text-align:center;">Permohonan Alat Tulis</h2>
 
-  <script>
-    const RESPONSE_POST_API = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
+<form id="form">
+  <input type="text" name="Nama" placeholder="Nama" required>
 
-    document.getElementById("form").addEventListener("submit", async function(e) {
-      e.preventDefault();
+  <input type="text" name="Jabatan" placeholder="Jabatan" required>
 
-      const data = Object.fromEntries(new FormData(this));
+  <select name="JenisAlatan" required>
+    <option value="">-- Pilih Alatan --</option>
+    <option value="Pen">Pen</option>
+    <option value="Kertas A4">Kertas A4</option>
+    <option value="Fail">Fail</option>
+    <option value="Marker">Marker</option>
+  </select>
 
-      try {
-        const response = await fetch(RESPONSE_POST_API, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
+  <input type="number" name="Kuantiti" placeholder="Kuantiti" required>
 
-        const result = await response.json();
+  <button type="submit">Hantar</button>
+</form>
 
-        if(result.status === "success") {
-          alert("Permohonan berjaya dihantar!");
-          this.reset();
-        } else {
-          alert("Ralat: " + result.message);
-        }
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
+  const form = document.getElementById("form");
 
-      } catch(error) {
-        alert("Gagal hantar data. Semak console.");
-        console.error(error);
-      }
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: new FormData(form)
+    })
+    .then(response => {
+      alert("✅ Berjaya hantar data!");
+      form.reset();
+    })
+    .catch(error => {
+      console.error(error);
+      alert("❌ Gagal hantar data. Semak console.");
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
-
