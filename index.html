@@ -21,8 +21,7 @@
   </form>
 
   <script>
-    // Gantikan URL ini dengan URL Web App Google Apps Script awak
-    const API_URL = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
+    const RESPONSE_POST_API = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
 
     document.getElementById("form").addEventListener("submit", async function(e) {
       e.preventDefault();
@@ -30,7 +29,7 @@
       const data = Object.fromEntries(new FormData(this));
 
       try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(RESPONSE_POST_API, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -55,3 +54,4 @@
   </script>
 </body>
 </html>
+
