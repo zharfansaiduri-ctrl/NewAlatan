@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Permohonan Alat Tulis</title>
+</head>
+<body>
+<h2>Permohonan Alat Tulis</h2>
+<form id="form">
+<input name="Nama" placeholder="Nama" required><br>
+<input name="Jabatan" placeholder="Jabatan"><br>
+<select name="JenisAlatan">
+<option>Pen</option>
+<option>Kertas A4</option>
+</select><br>
+<input type="number" name="Kuantiti"><br>
+<button type="submit">Hantar</button>
+</form>
+
+<script>
+document.getElementById('form').onsubmit = async e => {
+e.preventDefault();
+const data = Object.fromEntries(new FormData(e.target));
+
+
+await fetch('POST_API_URL', {
+method: 'POST',
+body: JSON.stringify(data)
+});
+
+
+alert('Permohonan dihantar');
+};
+</script>
+</body>
+</html>

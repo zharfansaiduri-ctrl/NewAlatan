@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Senarai Permohonan</h2>
+<table id="table"></table>
+
+
+<script>
+fetch('GET_RESPONSE_API')
+.then(r=>r.json())
+.then(d=>{
+let html = '<tr>' + Object.keys(d[0]).map(h=>`<th>${h}</th>`).join('') + '</tr>';
+d.forEach(r=>{
+html += '<tr>' + Object.values(r).map(v=>`<td>${v}</td>`).join('') + '</tr>';
+});
+document.getElementById('table').innerHTML = html;
+});
+</script>
+</body>
+</html>
