@@ -10,24 +10,21 @@
 
   <form id="form">
     <input name="Nama" placeholder="Nama" required><br><br>
-
     <input name="Jabatan" placeholder="Jabatan"><br><br>
-
     <select name="JenisAlatan">
       <option value="Pen">Pen</option>
       <option value="Kertas A4">Kertas A4</option>
       <option value="Kenderaan">Kenderaan</option>
     </select><br><br>
-
     <input type="number" name="Kuantiti" placeholder="Kuantiti" required><br><br>
-
     <button type="submit">Hantar</button>
   </form>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbz3qo3O07wJJsLktcdDIX4SYTu3EG-D8XikoMrowNWlixleuydtxina1MQkrTtyRiWs/exec";
+    // Gantikan URL ini dengan URL Web App Google Apps Script awak
+    const API_URL = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
 
-    document.getElementById("form").addEventListener("submit", async function (e) {
+    document.getElementById("form").addEventListener("submit", async function(e) {
       e.preventDefault();
 
       const data = Object.fromEntries(new FormData(this));
@@ -43,20 +40,18 @@
 
         const result = await response.json();
 
-        if (result.status === "success") {
-          alert("Permohonan berjaya dihantar");
+        if(result.status === "success") {
+          alert("Permohonan berjaya dihantar!");
           this.reset();
         } else {
           alert("Ralat: " + result.message);
         }
 
-      } catch (error) {
-        alert("Gagal hantar data");
+      } catch(error) {
+        alert("Gagal hantar data. Semak console.");
         console.error(error);
       }
     });
   </script>
 </body>
 </html>
-
-
