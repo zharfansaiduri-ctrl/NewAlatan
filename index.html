@@ -60,28 +60,23 @@
 </form>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw9OWB4Ys1Y708NosweufnEQiUav5IkMFAerq4MtftbW8FhiKw1T0QoZnURjGTTtkBu/exec";
-  const form = document.getElementById("form");
+  
+const scriptURL = "https://script.google.com/macros/s/AKfycbx3KuXtk3Vy7GYBu_EM7lnfe1ZN5HQFdHatqo9bJTeiFe_3b68nBmU_UAVWr_87QuyT/exec";
+const form = document.getElementById("form");
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    fetch(scriptURL, {
-      method: "POST",
-      body: new FormData(form)
-    })
-    .then(response => {
-      alert("✅ Berjaya hantar data!");
-      form.reset();
-    })
-    .catch(error => {
-      console.error(error);
-      alert("❌ Gagal hantar data. Semak console.");
-    });
+  fetch(scriptURL, {
+    method: "POST",
+    mode: "no-cors",
+    body: new FormData(form)
   });
+
+  alert("✅ Permohonan berjaya dihantar!");
+  form.reset();
+});
 </script>
 
 </body>
 </html>
-
-
