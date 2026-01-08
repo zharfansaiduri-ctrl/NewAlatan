@@ -13,11 +13,19 @@ body {
   margin: 0;
 }
 
-h2 {
-  text-align: center; /* Tengah */
-  font-size: 36px; /* Lebih besar */
-  margin-bottom: 25px;
-  color: #3E2723; /* Coklat pekat untuk tajuk */
+.header-box {
+  background: #FFF9C4; /* Kuning cair */
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.header-box h2 {
+  font-size: 36px;
+  margin: 0;
+  color: #3E2723; /* Coklat pekat */
 }
 
 table {
@@ -49,7 +57,9 @@ td {
 
 <body>
 
-<h2>Senarai Permohonan</h2>
+<div class="header-box">
+  <h2>Senarai Permohonan</h2>
+</div>
 
 <table>
   <thead id="thead"></thead>
