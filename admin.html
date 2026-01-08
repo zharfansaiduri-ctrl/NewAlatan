@@ -1,21 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Senarai Permohonan</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f8;
+  padding: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+th {
+  background: #007bff;
+  color: white;
+}
+</style>
+</head>
+
 <body>
-<h2>Senarai Permohonan</h2>
-<table id="table"></table>
+
+<h2>📋 Senarai Permohonan</h2>
+
+<table id="table">
+  <thead></thead>
+  <tbody></tbody>
+</table>
 
 <script>
-fetch('GET_RESPONSE_API')
-.then(r=>r.json())
-.then(d=>{
-let html = '<tr>' + Object.keys(d[0]).map(h=>`<th>${h}</th>`).join('') + '</tr>';
-d.forEach(r=>{
-html += '<tr>' + Object.values(r).map(v=>`<td>${v}</td>`).join('') + '</tr>';
-});
-document.getElementById('table').innerHTML = html;
-});
-</script>
-</body>
+const API_URL = "https://script.google.com/macros/s/AKfycbyFRBwI-NQmLMg7OZh3e9d83XQ-FwshzVwasS3s1ZtyDufj3-mOXj4pr5Olzon8vHiE/exec";
 
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+
+    if (data.length === 0) return;
+
+    // Header
+    let thead = "<tr>";
+    Object.keys(data[0]).forEach(h => thead += `<th>${h}</th>`);
+    thead += "</tr>";
+    document.querySelector("thead").innerHTML = thead;
+
+    // Body
+    let tbody = "";
+    data.forEach(row => {
+      tbody += "<tr>";
+      Object.values(row).forEach(v => tbody += `<td>${v}</td>`);
+      tbody += "</tr>";
+    });
+    document.querySelector("tbody").innerHTML = tbody;
+  });
+</script>
+
+</body>
 </html>
 
