@@ -5,10 +5,32 @@
 <title>Admin - Senarai Permohonan</title>
 
 <style>
-body { font-family: Arial; padding: 20px; background: #f4f6f8; }
-table { width: 100%; border-collapse: collapse; background: white; }
-th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-th { background: #007bff; color: white; }
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f4f6f8;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background: #007bff;
+  color: white;
+}
 </style>
 </head>
 
@@ -18,49 +40,52 @@ th { background: #007bff; color: white; }
 
 <table>
   <thead id="thead"></thead>
-  <tbody id="tbody"></tbody>
+  <tbody id="tbody">
+    <tr>
+      <td colspan="10">Loading...</td>
+    </tr>
+  </tbody>
 </table>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwkq2qEK9b8fJu1pXZ_6HA1TjEDmu395yadZ1u2Uj2ruKCUXBvU-409HkkqBB4fKi9F/exec";
+function paparData(data) {
 
-fetch(API_URL)
-  .then(response => response.json())
-  .then(data => {
+  if (!data || data.length === 0) {
+    document.getElementById("tbody").innerHTML =
+      "<tr><td colspan='10'>Tiada data</td></tr>";
+    return;
+  }
 
-    if (!data || data.length === 0) {
-      document.getElementById("tbody").innerHTML =
-        "<tr><td colspan='5'>Tiada data</td></tr>";
-      return;
-    }
-
-    // Header
-    let headerHTML = "<tr>";
-    Object.keys(data[0]).forEach(key => {
-      headerHTML += `<th>${key}</th>`;
-    });
-    headerHTML += "</tr>";
-    document.getElementById("thead").innerHTML = headerHTML;
-
-    // Data
-    let bodyHTML = "";
-    data.forEach(row => {
-      bodyHTML += "<tr>";
-      Object.values(row).forEach(value => {
-        bodyHTML += `<td>${value}</td>`;
-      });
-      bodyHTML += "</tr>";
-    });
-    document.getElementById("tbody").innerHTML = bodyHTML;
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Gagal ambil data");
+  // Header
+  let headerHTML = "<tr>";
+  Object.keys(data[0]).forEach(key => {
+    headerHTML += `<th>${key}</th>`;
   });
+  headerHTML += "</tr>";
+  document.getElementById("thead").innerHTML = headerHTML;
+
+  // Data
+  let bodyHTML = "";
+  data.forEach(row => {
+    bodyHTML += "<tr>";
+    Object.values(row).forEach(val => {
+      bodyHTML += `<td>${val}</td>`;
+    });
+    bodyHTML += "</tr>";
+  });
+
+  document.getElementById("tbody").innerHTML = bodyHTML;
+}
+</script>
+
+<!-- PENTING: letak URL Web App awak -->
+<script src="https://script.google.com/macros/s/AKfycbxYWq20W2FCWCu6O2A3mVIGtEvHYxciE_pF835SUG5JZGEBmXn0wmZenAvPOX00SYlP/exec">
+
 </script>
 
 </body>
 </html>
+
 
 
 
