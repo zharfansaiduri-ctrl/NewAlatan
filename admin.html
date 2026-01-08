@@ -5,64 +5,63 @@
 <title>Admin - Senarai Permohonan</title>
 
 <style>
-body {
-  font-family: Arial;
-  background: #f4f6f8;
-  padding: 20px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-}
-th, td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-th {
-  background: #007bff;
-  color: white;
-}
+body { font-family: Arial; padding: 20px; background: #f4f6f8; }
+table { width: 100%; border-collapse: collapse; background: white; }
+th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+th { background: #007bff; color: white; }
 </style>
 </head>
 
 <body>
 
-<h2>📋 Senarai Permohonan</h2>
+<h2>Senarai Permohonan</h2>
 
-<table id="table">
-  <thead></thead>
-  <tbody></tbody>
+<table>
+  <thead id="thead"></thead>
+  <tbody id="tbody"></tbody>
 </table>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbxfDWkhAkHTUhzX9nUBfYkCPYNrKLOMw4Or-HZ8Lt8OUaz9nyuGA8dv5B-m8_or0XrT/exec";
 
 fetch(API_URL)
-  .then(res => res.json())
+  .then(response => response.json())
   .then(data => {
 
-    if (data.length === 0) return;
+    if (!data || data.length === 0) {
+      document.getElementById("tbody").innerHTML =
+        "<tr><td colspan='5'>Tiada data</td></tr>";
+      return;
+    }
 
     // Header
-    let thead = "<tr>";
-    Object.keys(data[0]).forEach(h => thead += `<th>${h}</th>`);
-    thead += "</tr>";
-    document.querySelector("thead").innerHTML = thead;
-
-    // Body
-    let tbody = "";
-    data.forEach(row => {
-      tbody += "<tr>";
-      Object.values(row).forEach(v => tbody += `<td>${v}</td>`);
-      tbody += "</tr>";
+    let headerHTML = "<tr>";
+    Object.keys(data[0]).forEach(key => {
+      headerHTML += `<th>${key}</th>`;
     });
-    document.querySelector("tbody").innerHTML = tbody;
+    headerHTML += "</tr>";
+    document.getElementById("thead").innerHTML = headerHTML;
+
+    // Data
+    let bodyHTML = "";
+    data.forEach(row => {
+      bodyHTML += "<tr>";
+      Object.values(row).forEach(value => {
+        bodyHTML += `<td>${value}</td>`;
+      });
+      bodyHTML += "</tr>";
+    });
+    document.getElementById("tbody").innerHTML = bodyHTML;
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Gagal ambil data");
   });
 </script>
 
 </body>
 </html>
+
+
 
 
