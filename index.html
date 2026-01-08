@@ -15,11 +15,28 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
-      background-color: #fff9c4; /* kuning cair */
+      background: linear-gradient(135deg, #fff9c4, #ffe082); /* gradient kuning */
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Pola lingkaran abstrak */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      width: 200%;
+      height: 200%;
+      background-image: radial-gradient(circle, rgba(255, 235, 59, 0.1) 10%, transparent 10%),
+                        radial-gradient(circle, rgba(255, 193, 7, 0.1) 10%, transparent 10%);
+      background-size: 100px 100px;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .container {
@@ -30,7 +47,9 @@
       max-width: 500px;
       width: 100%;
       animation: fadeIn 0.8s ease;
-      color: #fff; /* teks putih dalam kotak */
+      color: #fff; /* teks putih */
+      position: relative;
+      z-index: 1; /* pastikan container atas background */
     }
 
     @keyframes fadeIn {
@@ -44,15 +63,15 @@
     }
 
     .logo img {
-      max-width: 180px; /* besarkan logo */
+      max-width: 180px;
       height: auto;
-      border-radius: 10px; /* optional */
+      border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
     h2 {
       text-align: center;
-      color: #fff; /* teks tajuk putih */
+      color: #fff;
       margin-bottom: 25px;
       font-size: 26px;
       font-weight: 600;
@@ -66,12 +85,12 @@
       border-radius: 8px;
       font-size: 16px;
       transition: all 0.3s ease;
-      background: #d7ccc8; /* coklat cair */
-      color: #000; /* teks hitam dalam input */
+      background: #d7ccc8;
+      color: #000;
     }
 
     form input:focus, form select:focus {
-      border-color: #ffeb3b; /* kuning terang ketika fokus */
+      border-color: #ffeb3b;
       box-shadow: 0 0 8px rgba(255,235,59,0.5);
       outline: none;
       background: #fff;
@@ -81,8 +100,8 @@
       width: 100%;
       padding: 14px;
       margin-top: 20px;
-      background-color: #ffeb3b; /* kuning terang untuk button */
-      color: #5d4037; /* teks coklat pekat */
+      background-color: #ffeb3b;
+      color: #5d4037;
       font-size: 16px;
       font-weight: 600;
       border: none;
@@ -92,7 +111,7 @@
     }
 
     button:hover {
-      background-color: #fdd835; /* kuning lebih gelap */
+      background-color: #fdd835;
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
