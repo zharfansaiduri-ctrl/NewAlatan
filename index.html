@@ -15,7 +15,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
-      background: linear-gradient(135deg, #fff9c4, #ffe082); /* gradient kuning */
+      background: linear-gradient(135deg, #fff9c4, #ffe082);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,7 +24,6 @@
       overflow: hidden;
     }
 
-    /* Pola lingkaran abstrak */
     body::before {
       content: '';
       position: absolute;
@@ -40,7 +39,7 @@
     }
 
     .container {
-      background: #5d4037; /* coklat pekat */
+      background: #5d4037;
       padding: 40px 50px;
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -146,20 +145,18 @@
 </div>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbyMrVeJLxaS_HMr37eikjGvBwE5WCFHRSaswXLKWKWDbrf8BbJyx3JPSS34NCYv-Eoz/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbyJe8iBEBgfDGr_OjEVcE_Ua7nF4cLnLphCgiOYmQOC9-47Um_3UbDxb37eEV9A3BGO/exec"; 
 const form = document.getElementById("form");
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-  fetch(scriptURL, { method: "POST", mode: "no-cors", body: new FormData(form) })
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
     .then(() => {
       alert("✅ Permohonan berjaya dihantar!");
       form.reset();
-    })
-    .catch(err => console.error("Ralat:", err));
+    });
 });
 </script>
 
 </body>
 </html>
-
