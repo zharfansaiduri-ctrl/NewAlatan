@@ -4,108 +4,50 @@
   <meta charset="UTF-8">
   <title>Permohonan Alat & Kenderaan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #fff9c4, #ffe082);
-      display: flex; justify-content: center; align-items: center;
-      padding: 20px; position: relative; overflow: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: absolute; top: -50px; left: -50px; width: 200%; height: 200%;
-      background-image: radial-gradient(circle, rgba(255, 235, 59, 0.1) 10%, transparent 10%),
-                        radial-gradient(circle, rgba(255, 193, 7, 0.1) 10%, transparent 10%);
-      background-size: 100px 100px;
-      z-index: 0; pointer-events: none;
-    }
-
-    .container {
-      background: #5d4037; padding: 40px 50px; border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 500px; width: 100%;
-      animation: fadeIn 0.8s ease; color: #fff; position: relative; z-index: 1;
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(-15px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo { text-align: center; margin-bottom: 25px; }
-    .logo img { max-width: 350px; height: auto; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
-    h2 { text-align: center; color: #fff; margin-bottom: 25px; font-size: 26px; font-weight: 600; }
-
-    form input, form select {
-      width: 100%; padding: 12px 15px; margin-top: 15px; border: 1.5px solid #ccc;
-      border-radius: 8px; font-size: 16px; transition: all 0.3s ease;
-      background: #d7ccc8; color: #000;
-    }
-
-    form input:focus, form select:focus {
-      border-color: #ffeb3b; box-shadow: 0 0 8px rgba(255,235,59,0.5); outline: none; background: #fff;
-    }
-
-    button {
-      width: 100%; padding: 14px; margin-top: 20px;
-      background-color: #ffeb3b; color: #5d4037; font-size: 16px; font-weight: 600;
-      border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #fdd835; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI', Tahoma; min-height:100vh; display:flex; justify-content:center; align-items:center; background:#fff9c4; }
+    .container { background:#5d4037; padding:30px 40px; border-radius:12px; width:100%; max-width:450px; color:#fff; }
+    h2 { text-align:center; margin-bottom:20px; }
+    form input, form select { width:100%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; font-size:16px; }
+    button { width:100%; padding:12px; border:none; border-radius:6px; background:#ffeb3b; color:#5d4037; font-weight:600; cursor:pointer; }
+    button:hover { background:#fdd835; }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="logo">
-      <img src="Screenshot 2026-01-05 160523.png" alt="Logo" />
-    </div>
 
-    <h2>Permohonan Alat & Kenderaan</h2>
+<div class="container">
+  <h2>Permohonan Alat & Kenderaan</h2>
+  <form id="form">
+    <input type="text" name="Nama" placeholder="Nama" required>
+    <input type="text" name="Jabatan" placeholder="Jabatan" required>
+    <select name="JenisAlatan" required>
+      <option value="">-- Pilih Alatan --</option>
+      <option value="Alat Tulis">Alat Tulis</option>
+      <option value="Kertas A4">Kertas A4</option>
+      <option value="Kenderaan">Kenderaan</option>
+    </select>
+    <input type="number" name="Kuantiti" placeholder="Kuantiti" required>
+    <button type="submit">Hantar</button>
+  </form>
+</div>
 
-    <form id="form">
-      <input type="text" name="Nama" placeholder="Nama" required>
-      <input type="text" name="Jabatan" placeholder="Jabatan" required>
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyhAk55a_i_Mw2CaQ16ECXvIilo_jPA7U4t_rKSOjGAcegPpxxPZjZLnS12YPRVtZ-W/exec"; // <-- Gantikan dengan Web App URL yang deploy dari Apps Script
+  const form = document.getElementById("form");
 
-      <select name="JenisAlatan" required>
-        <option value="">-- Pilih Alatan --</option>
-        <option value="Alat Tulis">Alat Tulis</option>
-        <option value="Kertas A4">Kertas A4</option>
-        <option value="Kenderaan">Kenderaan</option>
-      </select>
-
-      <input type="number" name="Kuantiti" placeholder="Kuantiti" required>
-
-      <button type="submit">Hantar</button>
-    </form>
-  </div>
-
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwHCxfHVz29HrzlNB9lNPi3omckwu9s8nZ1fR8ydXY0V8bgyvJUrgJ_j-iJxIE4v6QE/exec"; 
-    const form = document.getElementById("form");
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      fetch(scriptURL, {
-        method: "POST",
-        body: new FormData(form)
-      })
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    fetch(scriptURL, { method: "POST", body: new FormData(form) })
       .then(response => response.text())
-      .then(data => {
-        alert(data);  // alert sama ada berjaya / error
+      .then(text => {
+        alert(text);  // ✅ akan tunjuk berjaya atau error
         form.reset();
       })
-      .catch(error => alert("Ralat hantar data: " + error));
-    });
-  </script>
+      .catch(err => alert("❌ Ralat hantar data: " + err));
+  });
+</script>
+
 </body>
 </html>
 
