@@ -9,10 +9,10 @@ body {
   font-family: Arial, sans-serif;
   padding: 20px;
   background: #8D6E63;
+  color: #000;
   margin: 0;
 }
 
-/* HEADER */
 .header-box {
   background: #FFF9C4;
   text-align: center;
@@ -21,33 +21,30 @@ body {
   margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
+
 .header-box h2 {
   font-size: 36px;
   margin: 0;
   color: #3E2723;
 }
 
-/* FILTER */
+/* FILTER BOX */
 .filter-box {
   background: #D7CCC8;
   padding: 15px;
   border-radius: 8px;
-  text-align: center;
   margin-bottom: 15px;
+  text-align: center;
 }
+
 .filter-box select {
   padding: 10px;
   font-size: 16px;
+  border-radius: 5px;
 }
 
-/* RINGKASAN */
-.summary {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-.card {
-  flex: 1;
+/* JUMLAH */
+.jumlah-box {
   background: #FFF9C4;
   padding: 15px;
   border-radius: 8px;
@@ -55,28 +52,32 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: #3E2723;
-  box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
 }
 
-/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
   background: #D7CCC8;
   border-radius: 5px;
   overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+
 th, td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: center;
 }
+
 th {
   background: #3E2723;
-  color: #fff;
+  color: #FFF;
 }
+
 td {
   background: #FFF9C4;
+  color: #000;
 }
 </style>
 </head>
@@ -99,18 +100,18 @@ td {
   </select>
 </div>
 
-<!-- RINGKASAN KIRAAN -->
-<div class="summary">
-  <div class="card" id="kenderaan">🚗 Kenderaan<br>0</div>
-  <div class="card" id="alatTulis">✏️ Alat Tulis<br>0</div>
-  <div class="card" id="kertasA4">📄 Kertas A4<br>0</div>
+<!-- JUMLAH -->
+<div class="jumlah-box">
+  <span id="jumlah">Jumlah Permohonan: 0</span>
 </div>
 
 <!-- TABLE -->
 <table>
   <thead id="thead"></thead>
   <tbody id="tbody">
-    <tr><td colspan="10">Loading...</td></tr>
+    <tr>
+      <td colspan="10">Loading...</td>
+    </tr>
   </tbody>
 </table>
 
@@ -119,84 +120,73 @@ let dataAsal = [];
 
 /* DATA MASUK DARI GOOGLE APPS SCRIPT */
 function paparData(data) {
-  dataAsal = data || [];
-  if (dataAsal.length === 0) {
+  if (!data || data.length === 0) {
     document.getElementById("tbody").innerHTML =
       "<tr><td colspan='10'>Tiada data</td></tr>";
     return;
   }
 
+  dataAsal = data;
   binaTable(dataAsal);
-  kiraSemua(dataAsal);
+  kiraJumlah(dataAsal);
 }
 
 /* BINA TABLE */
 function binaTable(data) {
-  let thead = "<tr>";
+  let headerHTML = "<tr>";
   Object.keys(data[0]).forEach(key => {
-    thead += `<th>${key}</th>`;
+    headerHTML += `<th>${key}</th>`;
   });
-  thead += "</tr>";
-  document.getElementById("thead").innerHTML = thead;
+  headerHTML += "</tr>";
+  document.getElementById("thead").innerHTML = headerHTML;
 
-  let tbody = "";
+  let bodyHTML = "";
   data.forEach(row => {
-    tbody += "<tr>";
+    bodyHTML += "<tr>";
     Object.values(row).forEach(val => {
-      tbody += `<td>${val}</td>`;
+      bodyHTML += `<td>${val}</td>`;
     });
-    tbody += "</tr>";
+    bodyHTML += "</tr>";
   });
-  document.getElementById("tbody").innerHTML = tbody;
+
+  document.getElementById("tbody").innerHTML = bodyHTML;
 }
 
-/* FILTER TABLE */
+/* FILTER DATA */
 function tapisData() {
-  const jenis = document.getElementById("JenisAlat").value;
+  const pilihan = document.getElementById("JenisAlat").value;
 
-  if (jenis === "") {
+  if (pilihan === "") {
     binaTable(dataAsal);
-    kiraSemua(dataAsal);
+    kiraJumlah(dataAsal);
     return;
   }
 
-  const tapisan = dataAsal.filter(r =>
-    r.JenisAlatan &&
-    r.JenisAlatan.toLowerCase() === jenis.toLowerCase()
+  const dataTapis = dataAsal.filter(row =>
+    row.JenisAlatan &&
+    row.JenisAlatan.toLowerCase() === pilihan.toLowerCase()
   );
 
-  binaTable(tapisan);
-  kiraSemua(dataAsal); // kira keseluruhan, bukan ikut filter
+  if (dataTapis.length === 0) {
+    document.getElementById("tbody").innerHTML =
+      "<tr><td colspan='10'>Tiada permohonan untuk kategori ini</td></tr>";
+  } else {
+    binaTable(dataTapis);
+  }
+
+  kiraJumlah(dataTapis);
 }
 
-/* KIRA SETIAP JENIS */
-function kiraSemua(data) {
-  let kenderaan = 0, alatTulis = 0, kertasA4 = 0;
-
-  data.forEach(r => {
-    if (!r.JenisAlatan) return;
-    const j = r.JenisAlatan.toLowerCase();
-
-    if (j === "kenderaan") kenderaan++;
-    else if (j === "alat tulis") alatTulis++;
-    else if (j === "kertas a4") kertasA4++;
-  });
-
-  document.getElementById("kenderaan").innerHTML =
-    "🚗 Kenderaan<br>" + kenderaan;
-  document.getElementById("alatTulis").innerHTML =
-    "✏️ Alat Tulis<br>" + alatTulis;
-  document.getElementById("kertasA4").innerHTML =
-    "📄 Kertas A4<br>" + kertasA4;
+/* KIRA JUMLAH */
+function kiraJumlah(data) {
+  document.getElementById("jumlah").innerText =
+    "Jumlah Permohonan: " + data.length;
 }
 </script>
 
-<!-- GOOGLE APPS SCRIPT API -->
-<script src=https://script.google.com/macros/s/AKfycbyMrVeJLxaS_HMr37eikjGvBwE5WCFHRSaswXLKWKWDbrf8BbJyx3JPSS34NCYv-Eoz/exec?callback=paparData"></script>
+<!-- API GOOGLE APPS SCRIPT -->
+<script src="https://script.google.com/macros/s/AKfycbzxrr0MEY3m4i6J4q_2uD7nOVSL_OPxlOHMGRZLIBE_Z6OqfopgFeUxg5att2xLRNv6/exec?callback=paparData"></script>
 
 </body>
 </html>
-
-
-
 
