@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Permohonan Alat & Kenderaan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -14,62 +15,109 @@
       justify-content:center;
       align-items:center;
       background:
-        radial-gradient(circle at top left, rgba(255,235,59,0.35), transparent 40%),
-        radial-gradient(circle at bottom right, rgba(93,64,55,0.35), transparent 40%),
-        #fff9c4;
+        radial-gradient(circle at top left, rgba(255,235,59,0.45), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(93,64,55,0.45), transparent 45%),
+        linear-gradient(135deg, #fff9c4, #fff3a0);
+      overflow:hidden;
     }
 
     .container {
       background:#5d4037;
-      padding:30px 40px;
-      border-radius:12px;
+      padding:45px 45px;
+      border-radius:20px;
       width:100%;
-      max-width:450px;
+      max-width:500px;
       color:#fff;
-      box-shadow:0 15px 40px rgba(0,0,0,0.35);
+      box-shadow:0 25px 60px rgba(0,0,0,0.45);
+      position:relative;
+      overflow:hidden;
+      animation:fadeIn 1s ease forwards;
     }
 
+    .container::before {
+      content:"";
+      position:absolute;
+      inset:-50%;
+      background:radial-gradient(circle, rgba(255,235,59,0.12), transparent 60%);
+      z-index:0;
+    }
+
+    /* LOGO */
     .logo {
       display:flex;
       justify-content:center;
-      margin-bottom:15px;
+      margin-bottom:25px;
+      position:relative;
+      z-index:1;
+      animation:logoDrop 1.2s cubic-bezier(.25,1.25,.5,1) forwards;
     }
 
     .logo img {
-      width:90px;
+      width:190px;          /* SUPER BESAR */
       height:auto;
+      background:#fff;
+      padding:14px;
+      border-radius:20px;
+      box-shadow:0 15px 35px rgba(0,0,0,0.4);
     }
 
     h2 {
       text-align:center;
-      margin-bottom:20px;
+      margin-bottom:28px;
       letter-spacing:1px;
+      position:relative;
+      z-index:1;
+      animation:fadeUp 1.1s ease forwards;
+    }
+
+    form {
+      position:relative;
+      z-index:1;
+      animation:fadeUp 1.3s ease forwards;
     }
 
     form input,
     form select {
       width:100%;
-      padding:10px;
-      margin:10px 0;
-      border-radius:6px;
-      border:1px solid #ccc;
+      padding:13px;
+      margin:12px 0;
+      border-radius:9px;
+      border:none;
       font-size:16px;
     }
 
     button {
       width:100%;
-      padding:12px;
+      padding:15px;
       border:none;
-      border-radius:6px;
+      border-radius:9px;
       background:#ffeb3b;
       color:#5d4037;
-      font-weight:600;
+      font-weight:700;
       cursor:pointer;
-      margin-top:10px;
+      margin-top:16px;
+      font-size:16px;
     }
 
     button:hover {
       background:#fdd835;
+    }
+
+    /* ANIMATIONS */
+    @keyframes logoDrop {
+      0%   { transform:translateY(-60px) scale(0.6); opacity:0; }
+      60%  { transform:translateY(10px) scale(1.05); opacity:1; }
+      100% { transform:translateY(0) scale(1); }
+    }
+
+    @keyframes fadeUp {
+      from { transform:translateY(30px); opacity:0; }
+      to   { transform:translateY(0); opacity:1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; }
+      to   { opacity:1; }
     }
   </style>
 </head>
@@ -79,9 +127,7 @@
 
   <!-- LOGO -->
   <div class="logo">
-    <!-- Tukar src kepada logo anda -->
     <img src="Screenshot 2026-01-05 160523.png" alt="Logo">
-
   </div>
 
   <h2>Permohonan Alat & Kenderaan</h2>
@@ -121,4 +167,3 @@
 
 </body>
 </html>
-
