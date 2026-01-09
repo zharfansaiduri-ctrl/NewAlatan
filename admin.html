@@ -33,7 +33,7 @@ body {
   background: #D7CCC8;
   padding: 15px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -41,6 +41,18 @@ body {
   padding: 10px;
   font-size: 16px;
   border-radius: 5px;
+}
+
+/* JUMLAH */
+.jumlah-box {
+  background: #FFF9C4;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3E2723;
+  margin-bottom: 20px;
 }
 
 table {
@@ -72,6 +84,7 @@ td {
 
 <body>
 
+<!-- HEADER -->
 <div class="header-box">
   <h2>Senarai Permohonan</h2>
 </div>
@@ -87,6 +100,12 @@ td {
   </select>
 </div>
 
+<!-- JUMLAH -->
+<div class="jumlah-box">
+  <span id="jumlah">Jumlah Permohonan: 0</span>
+</div>
+
+<!-- TABLE -->
 <table>
   <thead id="thead"></thead>
   <tbody id="tbody">
@@ -99,6 +118,7 @@ td {
 <script>
 let dataAsal = [];
 
+/* DATA MASUK DARI GOOGLE APPS SCRIPT */
 function paparData(data) {
   if (!data || data.length === 0) {
     document.getElementById("tbody").innerHTML =
@@ -106,12 +126,13 @@ function paparData(data) {
     return;
   }
 
-  dataAsal = data; 
+  dataAsal = data;
   binaTable(dataAsal);
+  kiraJumlah(dataAsal);
 }
 
+/* BINA TABLE */
 function binaTable(data) {
-  // Header
   let headerHTML = "<tr>";
   Object.keys(data[0]).forEach(key => {
     headerHTML += `<th>${key}</th>`;
@@ -119,7 +140,6 @@ function binaTable(data) {
   headerHTML += "</tr>";
   document.getElementById("thead").innerHTML = headerHTML;
 
-  // Body
   let bodyHTML = "";
   data.forEach(row => {
     bodyHTML += "<tr>";
@@ -132,11 +152,13 @@ function binaTable(data) {
   document.getElementById("tbody").innerHTML = bodyHTML;
 }
 
+/* FILTER DATA */
 function tapisData() {
-  const pilihan = document.getElementById("filterJenis").value;
+  const pilihan = document.getElementById("JenisAlat").value;
 
   if (pilihan === "") {
     binaTable(dataAsal);
+    kiraJumlah(dataAsal);
     return;
   }
 
@@ -148,18 +170,22 @@ function tapisData() {
   if (dataTapis.length === 0) {
     document.getElementById("tbody").innerHTML =
       "<tr><td colspan='10'>Tiada permohonan untuk kategori ini</td></tr>";
-    return;
+  } else {
+    binaTable(dataTapis);
   }
 
-  binaTable(dataTapis);
+  kiraJumlah(dataTapis);
+}
+
+/* KIRA JUMLAH */
+function kiraJumlah(data) {
+  document.getElementById("jumlah").innerText =
+    "Jumlah Permohonan: " + data.length;
 }
 </script>
 
+<!-- API GOOGLE APPS SCRIPT -->
 <script src="https://script.google.com/macros/s/AKfycbzxrr0MEY3m4i6J4q_2uD7nOVSL_OPxlOHMGRZLIBE_Z6OqfopgFeUxg5att2xLRNv6/exec?callback=paparData"></script>
 
 </body>
 </html>
-
-
-
-
