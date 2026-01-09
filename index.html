@@ -92,5 +92,73 @@
     form input:focus, form select:focus {
       border-color: #ffeb3b;
       box-shadow: 0 0 8px rgba(255,235,59,0.5);
-      o
+      outline: none;
+      background: #fff;
+    }
 
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background-color: #ffeb3b;
+      color: #5d4037;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #fdd835;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="logo">
+    <img src="Screenshot 2026-01-08 100718.png" alt="Logo" />
+  </div>
+
+  <h2>Permohonan Alat & Kenderaan</h2>
+
+  <form id="form">
+    <input type="text" name="Nama" placeholder="Nama" required>
+    <input type="text" name="Jabatan" placeholder="Jabatan" required>
+
+    <select name="JenisAlatan" required>
+      <option value="">-- Pilih Alatan --</option>
+      <option value="Alat Tulis">Alat Tulis</option>
+      <option value="Kertas A4">Kertas A4</option>
+      <option value="Kenderaan">Kenderaan</option>
+    </select>
+
+    <input type="number" name="Kuantiti" placeholder="Kuantiti" required>
+
+    <button type="submit">Hantar</button>
+  </form>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbz-dlEL5beE51pG-f1mY-kpls8nXPwQY0OLrbrIHumXQs1EdB7_kMY7FLhijqDCbJDI/exec";
+const form = document.getElementById("form");
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  fetch(scriptURL, { method: "POST", mode: "no-cors", body: new FormData(form) })
+    .then(() => {
+      alert("✅ Permohonan berjaya dihantar!");
+      form.reset();
+    })
+    .catch(err => console.error("Ralat:", err));
+});
+</script>
+
+</body>
+</html>
