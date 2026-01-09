@@ -8,30 +8,45 @@
 body {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background: #8D6E63; /* Coklat cair */
+  background: #8D6E63;
   color: #000;
   margin: 0;
 }
 
 .header-box {
-  background: #FFF9C4; /* Kuning cair */
+  background: #FFF9C4;
   text-align: center;
   padding: 20px;
   border-radius: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
 .header-box h2 {
   font-size: 36px;
   margin: 0;
-  color: #3E2723; /* Coklat pekat */
+  color: #3E2723;
+}
+
+/* FILTER BOX */
+.filter-box {
+  background: #D7CCC8;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-box select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #D7CCC8; /* Sedikit lebih cerah dari body */
+  background: #D7CCC8;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -44,12 +59,12 @@ th, td {
 }
 
 th {
-  background: #3E2723; /* Coklat pekat */
+  background: #3E2723;
   color: #FFF;
 }
 
 td {
-  background: #FFF9C4; /* Kuning cair */
+  background: #FFF9C4;
   color: #000;
 }
 </style>
@@ -59,6 +74,17 @@ td {
 
 <div class="header-box">
   <h2>Senarai Permohonan</h2>
+</div>
+
+<!-- FILTER -->
+<div class="filter-box">
+  <label><strong>Filter Jenis Alat:</strong></label>
+  <select id="filterJenis" onchange="tapisData()">
+    <option value="">Semua</option>
+    <option value="Kenderaan">Kenderaan</option>
+    <option value="Alat Tulis">Alat Tulis</option>
+    <option value="Kertas A4">Kertas A4</option>
+  </select>
 </div>
 
 <table>
@@ -71,14 +97,20 @@ td {
 </table>
 
 <script>
-function paparData(data) {
+let dataAsal = []; // simpan semua data asal
 
+function paparData(data) {
   if (!data || data.length === 0) {
     document.getElementById("tbody").innerHTML =
       "<tr><td colspan='10'>Tiada data</td></tr>";
     return;
   }
 
+  dataAsal = data; // simpan data asal
+  binaTable(dataAsal);
+}
+
+function binaTable(data) {
   // Header
   let headerHTML = "<tr>";
   Object.keys(data[0]).forEach(key => {
@@ -87,7 +119,7 @@ function paparData(data) {
   headerHTML += "</tr>";
   document.getElementById("thead").innerHTML = headerHTML;
 
-  // Data
+  // Body
   let bodyHTML = "";
   data.forEach(row => {
     bodyHTML += "<tr>";
@@ -99,9 +131,31 @@ function paparData(data) {
 
   document.getElementById("tbody").innerHTML = bodyHTML;
 }
+
+function tapisData() {
+  const pilihan = document.getElementById("filterJenis").value;
+
+  if (pilihan === "") {
+    binaTable(dataAsal);
+    return;
+  }
+
+  const dataTapis = dataAsal.filter(row =>
+    row.JenisAlatan &&
+    row.JenisAlatan.toLowerCase() === pilihan.toLowerCase()
+  );
+
+  if (dataTapis.length === 0) {
+    document.getElementById("tbody").innerHTML =
+      "<tr><td colspan='10'>Tiada permohonan untuk kategori ini</td></tr>";
+    return;
+  }
+
+  binaTable(dataTapis);
+}
 </script>
 
-<!-- PENTING: letak URL Web App awak -->
+<!-- URL WEB APP -->
 <script src="https://script.google.com/macros/s/AKfycbx__hvVU-gvCEks_KRJHoSASRtl_oVJaBYbZlpaApNfF7CM8t-mLuaJ5S-qZfYfuBS4/exec?callback=paparData"></script>
 
 </body>
